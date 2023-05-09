@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Spotify_Clone" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Spotify_Clone" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/neutral_black_color</item>
     </style>
 
     <style name="Theme.Spotify_Clone" parent="Base.Theme.Spotify_Clone" />

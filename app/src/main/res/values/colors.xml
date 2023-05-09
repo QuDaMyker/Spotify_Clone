@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="main_color">#1ED760</color>
+    <color name="secondary_color">#D7BD1E</color>
+    <color name="neutral_white_color">#F0F0F0</color>
+    <color name="neutral_black_color">#0F0E0E</color>
+    <color name="neutral_gray_color">#333333</color>
+    <color name="gradient_color">#000000</color>
 </resources>
