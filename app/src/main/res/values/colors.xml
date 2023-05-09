@@ -8,4 +8,5 @@
     <color name="neutral_black_color">#0F0E0E</color>
     <color name="neutral_gray_color">#333333</color>
     <color name="gradient_color">#000000</color>
+    <color name="text_gray_color">#7e7e7e</color>
 </resources>

@@ -13,16 +13,19 @@
         android:theme="@style/Theme.Spotify_Clone"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.Login_Activity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.Signup_Activity"
             android:exported="false" />
         <activity
-            android:name=".Activity.Splash_Activity"
+            android:name=".Activity.Register_Activity"
             android:exported="false" />
         <activity
             android:name=".Activity.GetStarted_Activity"
             android:exported="false" />
         <activity
-            android:name=".Activity.Login_Activity"
+            android:name=".Activity.Splash_Activity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

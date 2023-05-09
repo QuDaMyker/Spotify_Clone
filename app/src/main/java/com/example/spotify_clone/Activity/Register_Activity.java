@@ -7,35 +7,39 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.spotify_clone.R;
-import com.example.spotify_clone.databinding.ActivityLoginBinding;
+import com.example.spotify_clone.databinding.ActivityRegisterBinding;
 
-public class Login_Activity extends AppCompatActivity {
-    private ActivityLoginBinding binding;
+public class Register_Activity extends AppCompatActivity {
+    private ActivityRegisterBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.signupBackBtn.setOnClickListener(new View.OnClickListener() {
+        binding.regBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login_Activity.this, Signup_Activity.class));
                 finish();
             }
         });
 
-        binding.loginContactSupport.setOnClickListener(new View.OnClickListener() {
+        binding.regContactSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
 
-        binding.loginLoginBtn.setOnClickListener(new View.OnClickListener() {
+        binding.regEditFullname.getText();
+        binding.regEditEmail.getText();
+        binding.regPassword.getText();
+        binding.regConfirmPassword.getText();
+
+        binding.regLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login_Activity.this, null));
+
             }
         });
 
@@ -60,20 +64,12 @@ public class Login_Activity extends AppCompatActivity {
             }
         });
 
-        binding.loginRegBtn.setOnClickListener(new View.OnClickListener() {
+        binding.loginLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Login_Activity.this, Register_Activity.class));
+                startActivity(new Intent(Register_Activity.this, Login_Activity.class));
+                finish();
             }
         });
-
     }
-    public boolean checkEmail(String email) {
-        return true;
-    }
-
-    public boolean checkEmailPassword(String password) {
-        return true;
-    }
-
 }
