@@ -10,7 +10,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragArtists_recycleView"
+        android:id="@+id/fragAlbum_recycleView"
         android:layout_marginTop="10dp"
         android:paddingStart="10dp"
         android:layout_width="match_parent"

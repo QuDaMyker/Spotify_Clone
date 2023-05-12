@@ -3,64 +3,75 @@ package com.example.spotify_clone.Fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.spotify_clone.Adapter.TabLayout_GenreAdapter;
+import com.example.spotify_clone.OOP.itemTabLayout_Artists;
+import com.example.spotify_clone.OOP.itemTabLayout_Genre;
 import com.example.spotify_clone.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GenreFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class GenreFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public GenreFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GenreFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GenreFragment newInstance(String param1, String param2) {
-        GenreFragment fragment = new GenreFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    private RecyclerView fragGenre_recycleView;
+    private TabLayout_GenreAdapter tabLayout_genreAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_genre, container, false);
+        View view = inflater.inflate(R.layout.fragment_genre, container, false);
+        fragGenre_recycleView = view.findViewById(R.id.fragGenre_recycleView);
+        tabLayout_genreAdapter = new TabLayout_GenreAdapter(this.getContext(), getItemTabLayoutList());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
+        fragGenre_recycleView.setLayoutManager(linearLayoutManager);
+        fragGenre_recycleView.setAdapter(tabLayout_genreAdapter);
+
+        return view;
+    }
+
+    private List<itemTabLayout_Genre> getItemTabLayoutList() {
+        List<itemTabLayout_Genre> list = new ArrayList<>();
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_1, "Hip-Hop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_2, "Pop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_3, "Đồng quê", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_4, "La-tinh", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_5, "Rock", ""));
+
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_1, "Hip-Hop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_2, "Pop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_3, "Đồng quê", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_4, "La-tinh", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_5, "Rock", ""));
+
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_1, "Hip-Hop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_2, "Pop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_3, "Đồng quê", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_4, "La-tinh", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_5, "Rock", ""));
+
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_1, "Hip-Hop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_2, "Pop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_3, "Đồng quê", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_4, "La-tinh", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_5, "Rock", ""));
+
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_1, "Hip-Hop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_2, "Pop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_3, "Đồng quê", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_4, "La-tinh", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_5, "Rock", ""));
+
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_1, "Hip-Hop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_2, "Pop", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_3, "Đồng quê", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_4, "La-tinh", ""));
+        list.add(new itemTabLayout_Genre(R.drawable.img_genre_5, "Rock", ""));
+        return list;
     }
 }

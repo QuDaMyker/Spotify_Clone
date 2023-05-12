@@ -65,6 +65,7 @@ public class TabLayout_ArtistsAdapter extends RecyclerView.Adapter<TabLayout_Art
         private TextView item_layout_Artist;
         private TextView item_layout_Des;
         private ImageView item_layout_BtnNext;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             item_layout_img = itemView.findViewById(R.id.item_tab_layout_artist_img);

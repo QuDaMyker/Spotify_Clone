@@ -43,12 +43,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/item_tab_layout_album_Artist"
+            android:id="@+id/item_tab_layout_album_Title"
             android:layout_width="match_parent"
+            android:maxWidth="230dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserratsemibold"
             android:maxLines="1"
             android:text="Adele"
+            android:ellipsize="end"
             android:textColor="@color/neutral_white_color"
             android:textSize="20sp" />
 
@@ -58,6 +60,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
+            android:maxWidth="230dp"
             android:text="43,877,516 monthly listeners"
             android:textColor="@color/text_gray_color"
             android:textSize="12sp" />

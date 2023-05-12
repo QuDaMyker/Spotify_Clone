@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/item_tab_layout_podcast_Artist"
+            android:id="@+id/item_tab_layout_podcast_Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserratsemibold"

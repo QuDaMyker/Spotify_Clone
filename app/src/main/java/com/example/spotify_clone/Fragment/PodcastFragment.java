@@ -3,64 +3,72 @@ package com.example.spotify_clone.Fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.spotify_clone.Adapter.TabLayout_PodcastAdapter;
+import com.example.spotify_clone.OOP.itemTabLayout_Artists;
+import com.example.spotify_clone.OOP.itemTabLayout_Podcast;
 import com.example.spotify_clone.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PodcastFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class PodcastFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public PodcastFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PodcastFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PodcastFragment newInstance(String param1, String param2) {
-        PodcastFragment fragment = new PodcastFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private RecyclerView fragPodcast_recycleView;
+    private TabLayout_PodcastAdapter tabLayout_podcastAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_podcast, container, false);
+        View view = inflater.inflate(R.layout.fragment_podcast, container, false);
+        fragPodcast_recycleView = view.findViewById(R.id.fragPodcast_recycleView);
+        tabLayout_podcastAdapter = new TabLayout_PodcastAdapter(this.getContext(), getItemTabLayoutList());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
+        fragPodcast_recycleView.setLayoutManager(linearLayoutManager);
+        fragPodcast_recycleView.setAdapter(tabLayout_podcastAdapter);
+
+        return view;
+    }
+
+    private List<itemTabLayout_Podcast> getItemTabLayoutList() {
+        List<itemTabLayout_Podcast> list = new ArrayList<>();
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_1, "Morgan Wallen Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_2, "Zach Bryan Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_3, "Taylor Swift Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_4, "Luke Combs Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_5, "Drake Radio", "Của Spotify"));
+
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_1, "Morgan Wallen Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_2, "Zach Bryan Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_3, "Taylor Swift Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_4, "Luke Combs Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_5, "Drake Radio", "Của Spotify"));
+
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_1, "Morgan Wallen Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_2, "Zach Bryan Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_3, "Taylor Swift Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_4, "Luke Combs Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_5, "Drake Radio", "Của Spotify"));
+
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_1, "Morgan Wallen Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_2, "Zach Bryan Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_3, "Taylor Swift Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_4, "Luke Combs Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_5, "Drake Radio", "Của Spotify"));
+
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_1, "Morgan Wallen Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_2, "Zach Bryan Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_3, "Taylor Swift Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_4, "Luke Combs Radio", "Của Spotify"));
+        list.add(new itemTabLayout_Podcast(R.drawable.img_podcast_5, "Drake Radio", "Của Spotify"));
+
+        return list;
     }
 }

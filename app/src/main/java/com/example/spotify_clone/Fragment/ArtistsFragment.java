@@ -21,6 +21,7 @@ import java.util.List;
 public class ArtistsFragment extends Fragment {
     private RecyclerView fragArtists_recycleView;
     private TabLayout_ArtistsAdapter tabLayout_artistsAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

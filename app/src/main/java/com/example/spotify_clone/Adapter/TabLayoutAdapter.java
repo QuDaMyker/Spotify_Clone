@@ -40,6 +40,8 @@ public class TabLayoutAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return 4;
     }
+
+
 }
 
 
