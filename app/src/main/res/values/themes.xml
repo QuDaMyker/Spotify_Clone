@@ -12,4 +12,8 @@
         <item name="cornerSize">30dp</item>
         <item name="color">@color/neutral_white_color</item>
     </style>
+    <style name="circular" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50dp</item>
+    </style>
 </resources>

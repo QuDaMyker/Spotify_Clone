@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
 
-
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_photo"
         android:layout_width="match_parent"

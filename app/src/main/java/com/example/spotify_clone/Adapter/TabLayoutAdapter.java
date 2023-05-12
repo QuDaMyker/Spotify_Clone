@@ -22,16 +22,16 @@ public class TabLayoutAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
-            case 1: {
+            case 0: {
                 return new ArtistsFragment();
             }
-            case 2: {
+            case 1: {
                 return new AlbumFragment();
             }
-            case 3: {
+            case 2: {
                 return new PodcastFragment();
             }
-            case 4: {
+            case 3: {
                 return new GenreFragment();
             }
         }

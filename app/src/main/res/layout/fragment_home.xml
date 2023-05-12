@@ -115,7 +115,6 @@
                 android:layout_height="50dp"
                 android:background="@color/neutral_black_color"
                 android:outlineSpotShadowColor="@color/main_color"
-                android
                 app:tabIndicatorColor="@color/main_color"
                 app:tabIndicatorHeight="3dp"
                 app:tabIndicatorFullWidth="false"
