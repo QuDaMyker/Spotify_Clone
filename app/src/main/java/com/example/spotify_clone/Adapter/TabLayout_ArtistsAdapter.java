@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,31 +12,31 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.spotify_clone.Activity.OOP.itemTabLayout;
+import com.example.spotify_clone.OOP.itemTabLayout_Artists;
 import com.example.spotify_clone.R;
 
 import java.util.List;
 
 public class TabLayout_ArtistsAdapter extends RecyclerView.Adapter<TabLayout_ArtistsAdapter.ViewHolder> {
-    private List<itemTabLayout> itemTabLayoutList;
+    private List<itemTabLayout_Artists> itemTabLayoutArtistsList;
     private Context context;
 
-    public TabLayout_ArtistsAdapter(Context context, List<itemTabLayout> itemTabLayoutList) {
-        this.itemTabLayoutList = itemTabLayoutList;
+    public TabLayout_ArtistsAdapter(Context context, List<itemTabLayout_Artists> itemTabLayoutArtistsList) {
+        this.itemTabLayoutArtistsList = itemTabLayoutArtistsList;
         this.context = context;
     }
 
     @NonNull
     @Override
     public TabLayout_ArtistsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context.getApplicationContext()).inflate(R.layout.item_tablayout, parent, false);
+        View view = LayoutInflater.from(context.getApplicationContext()).inflate(R.layout.item_tablayout_artists, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TabLayout_ArtistsAdapter.ViewHolder holder, int position) {
-        itemTabLayout item = itemTabLayoutList.get(position);
+        itemTabLayout_Artists item = itemTabLayoutArtistsList.get(position);
 
         Glide.with(context)
                 .load(item.getImage())
@@ -55,8 +54,8 @@ public class TabLayout_ArtistsAdapter extends RecyclerView.Adapter<TabLayout_Art
 
     @Override
     public int getItemCount() {
-        if (itemTabLayoutList != null) {
-            return itemTabLayoutList.size();
+        if (itemTabLayoutArtistsList != null) {
+            return itemTabLayoutArtistsList.size();
         }
         return 0;
     }
@@ -68,10 +67,10 @@ public class TabLayout_ArtistsAdapter extends RecyclerView.Adapter<TabLayout_Art
         private ImageView item_layout_BtnNext;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            item_layout_img = itemView.findViewById(R.id.item_layout_img);
-            item_layout_Artist = itemView.findViewById(R.id.item_layout_Artist);
-            item_layout_Des = itemView.findViewById(R.id.item_layout_Des);
-            item_layout_BtnNext = itemView.findViewById(R.id.item_layout_BtnNext);
+            item_layout_img = itemView.findViewById(R.id.item_tab_layout_artist_img);
+            item_layout_Artist = itemView.findViewById(R.id.item_tab_layout_artist_Artist);
+            item_layout_Des = itemView.findViewById(R.id.item_tab_layout_artist_Des);
+            item_layout_BtnNext = itemView.findViewById(R.id.item_tab_layout_artist_BtnNext);
         }
     }
 }

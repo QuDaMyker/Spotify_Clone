@@ -12,20 +12,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/item_layout_img"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:id="@+id/item_tab_layout_genre_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:adjustViewBounds="true"
             android:background="@drawable/image_circle"
+            android:scaleType="fitCenter"
             android:src="@drawable/img_singer_1"
             app:shapeAppearanceOverlay="@style/circular" />
 
@@ -42,38 +43,37 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/item_layout_Artist"
+            android:id="@+id/item_tab_layout_genre_Artist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserratsemibold"
             android:maxLines="1"
             android:text="Adele"
             android:textColor="@color/neutral_white_color"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/item_layout_Des"
+            android:id="@+id/item_tab_layout_genre_Des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="43,877,516 monthly listeners"
-            android:textColor="@color/text_gray_color" />
+            android:textColor="@color/text_gray_color"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/item_layout_BtnNext"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="@android:color/transparent"
+        android:id="@+id/item_tab_layout_genre_BtnNext"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="28dp"
         android:backgroundTint="@color/black"
+        android:src="@drawable/icons_next_100"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.176"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout10"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icons_next_100" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

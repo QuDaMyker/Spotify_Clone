@@ -2,16 +2,15 @@ package com.example.spotify_clone.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentController;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.spotify_clone.Activity.Fragment.HistoryFragment;
-import com.example.spotify_clone.Activity.Fragment.HomeFragment;
-import com.example.spotify_clone.Activity.Fragment.PlaylistFragment;
-import com.example.spotify_clone.Activity.Fragment.ProfileFragment;
+import com.example.spotify_clone.Fragment.HistoryFragment;
+import com.example.spotify_clone.Fragment.HomeFragment;
+import com.example.spotify_clone.Fragment.PlaylistFragment;
+import com.example.spotify_clone.Fragment.ProfileFragment;
 import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivityMainBinding;
 

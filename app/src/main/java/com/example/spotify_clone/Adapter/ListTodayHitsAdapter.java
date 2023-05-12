@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.spotify_clone.Activity.OOP.TodayHits;
+import com.example.spotify_clone.OOP.TodayHits;
 import com.example.spotify_clone.R;
 
 import java.util.List;

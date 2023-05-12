@@ -1,11 +1,11 @@
-package com.example.spotify_clone.Activity.OOP;
+package com.example.spotify_clone.OOP;
 
-public class itemTabLayout {
+public class itemTabLayout_Artists {
     private int Image;
     private String Singer;
     private String Des;
 
-    public itemTabLayout(int image, String singer, String des) {
+    public itemTabLayout_Artists(int image, String singer, String des) {
         Image = image;
         Singer = singer;
         Des = des;

@@ -1,4 +1,4 @@
-package com.example.spotify_clone.Activity.Custom;
+package com.example.spotify_clone.Custom;
 
 import android.content.Context;
 import android.util.AttributeSet;

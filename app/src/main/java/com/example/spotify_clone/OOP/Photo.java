@@ -1,4 +1,4 @@
-package com.example.spotify_clone.Activity.OOP;
+package com.example.spotify_clone.OOP;
 
 public class Photo {
     private int resourceId;

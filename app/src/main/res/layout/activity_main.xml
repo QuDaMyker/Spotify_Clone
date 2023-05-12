@@ -39,7 +39,7 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/neutral_black_color"
         android:backgroundTint="@color/main_color"
         android:src="@drawable/iconsspotify"

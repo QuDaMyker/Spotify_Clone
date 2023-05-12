@@ -11,7 +11,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.example.spotify_clone.Activity.OOP.Photo;
+import com.example.spotify_clone.OOP.Photo;
 import com.example.spotify_clone.R;
 
 import java.util.List;
