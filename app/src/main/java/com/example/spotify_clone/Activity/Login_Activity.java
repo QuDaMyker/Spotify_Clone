@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivityLoginBinding;
+
 
 public class Login_Activity extends AppCompatActivity {
     private ActivityLoginBinding binding;

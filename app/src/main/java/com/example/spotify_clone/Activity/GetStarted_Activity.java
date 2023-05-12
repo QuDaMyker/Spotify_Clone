@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivityGetStartedBinding;
+
 
 public class GetStarted_Activity extends AppCompatActivity {
     private ActivityGetStartedBinding binding;

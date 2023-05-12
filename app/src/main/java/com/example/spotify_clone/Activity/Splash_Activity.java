@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Toast;
 
-import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivitySplashBinding;
+
 
 public class Splash_Activity extends AppCompatActivity {
     private ActivitySplashBinding binding;

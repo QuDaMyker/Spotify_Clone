@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <application
         android:allowBackup="true"
@@ -11,9 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Spotify_Clone"
-        tools:targetApi="31">
+        tools:targetApi="31" >
         <activity
             android:name=".Activity.Login_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.Splash_Activity"
             android:exported="false" />
         <activity
             android:name=".Activity.Signup_Activity"
@@ -25,8 +28,8 @@
             android:name=".Activity.GetStarted_Activity"
             android:exported="false" />
         <activity
-            android:name=".Activity.Splash_Activity"
-            android:exported="true">
+            android:name=".Activity.MainActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

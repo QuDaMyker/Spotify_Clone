@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivityRegisterBinding;
 
 public class Register_Activity extends AppCompatActivity {
@@ -31,7 +30,7 @@ public class Register_Activity extends AppCompatActivity {
             }
         });
 
-        binding.regEditFullname.getText();
+        binding.regEditFullName.getText();
         binding.regEditEmail.getText();
         binding.regPassword.getText();
         binding.regConfirmPassword.getText();

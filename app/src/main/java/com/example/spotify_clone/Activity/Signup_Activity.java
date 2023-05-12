@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivitySignupBinding;
 
-import kotlin.SinceKotlin;
 
 public class Signup_Activity extends AppCompatActivity {
     private ActivitySignupBinding binding;

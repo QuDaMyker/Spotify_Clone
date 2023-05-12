@@ -3,7 +3,13 @@
     <style name="Base.Theme.Spotify_Clone" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/neutral_black_color</item>
+        <item name="colorPrimaryVariant">@color/main_color</item>
     </style>
 
     <style name="Theme.Spotify_Clone" parent="Base.Theme.Spotify_Clone" />
+    <style name="roundImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30dp</item>
+        <item name="color">@color/neutral_white_color</item>
+    </style>
 </resources>
