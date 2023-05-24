@@ -8,6 +8,9 @@
     tools:context=".Fragment.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/neutral_black_color"
@@ -18,9 +21,9 @@
             android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="30dp"
             android:gravity="center"
             android:orientation="horizontal"
+            android:paddingTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -29,8 +32,8 @@
                 android:id="@+id/fragHome_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="20dp"
+                android:layout_weight="1"
                 android:padding="10dp"
                 android:src="@drawable/outline_search_24" />
 
@@ -39,21 +42,22 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="80dp"
-                android:layout_marginBottom="20dp"
                 android:layout_marginRight="80dp"
+                android:layout_marginBottom="20dp"
                 android:layout_weight="1"
                 android:src="@drawable/splash_logo" />
 
             <ImageView
                 android:id="@+id/fragHome_setting"
                 android:layout_width="wrap_content"
-                android:layout_marginEnd="20dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:src="@drawable/outline_settings_24" />
 
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/linearLayout7"
@@ -119,13 +123,13 @@
                 android:layout_height="50dp"
                 android:background="@color/neutral_black_color"
                 android:outlineSpotShadowColor="@color/main_color"
-                app:tabIndicatorColor="@color/main_color"
-                app:tabIndicatorHeight="3dp"
-                app:tabIndicatorFullWidth="false"
-                app:tabMode="fixed"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragHome_listAlbum"
+                app:tabIndicatorColor="@color/main_color"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorHeight="3dp"
+                app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/neutral_white_color"
                 app:tabTextColor="#999999" />
 
