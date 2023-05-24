@@ -20,7 +20,6 @@ import java.util.List;
 
 public class HistoryFragment extends Fragment {
     private FragmentHistoryBinding binding;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,6 +30,21 @@ public class HistoryFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         binding.fragHistoryRecyclerViewToday.setLayoutManager(linearLayoutManager);
         binding.fragHistoryRecyclerViewToday.setAdapter(history_todayRecycleViewAdapter);
+
+        int maxVisibleItems = 5;
+        history_todayRecycleViewAdapter.setMaxVisibleItems(maxVisibleItems);
+        binding.seeAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Hiển thị hoặc ẩn tất cả các item
+                boolean showAllItems = history_todayRecycleViewAdapter.toggleShowAllItems();
+                if (showAllItems) {
+                    binding.seeAllButton.setText("Hide All");
+                } else {
+                    binding.seeAllButton.setText("See All");
+                }
+            }
+        });
 
         return view;
 

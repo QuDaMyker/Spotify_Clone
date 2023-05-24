@@ -19,16 +19,30 @@ import java.util.List;
 public class History_TodayRecycleViewAdapter extends RecyclerView.Adapter<History_TodayRecycleViewAdapter.ViewHolder> {
     private Context context;
     private List<itemHistory_TodayRecycleView> list;
+    private int maxVisibleItems;
+    private boolean showAllItems;
 
     public History_TodayRecycleViewAdapter(Context context, List<itemHistory_TodayRecycleView> list) {
         this.context = context;
         this.list = list;
+        this.maxVisibleItems = 5;
+        this.showAllItems = false;
+    }
+
+    public void setMaxVisibleItems(int maxVisibleItems) {
+        this.maxVisibleItems = maxVisibleItems;
+    }
+
+    public boolean toggleShowAllItems() {
+        showAllItems = !showAllItems;
+        notifyDataSetChanged();
+        return showAllItems;
     }
 
     @NonNull
     @Override
     public History_TodayRecycleViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context.getApplicationContext()).inflate(R.layout.item_history_todayrecycleview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_history_todayrecycleview, parent, false);
 
         return new ViewHolder(view);
     }
@@ -53,10 +67,11 @@ public class History_TodayRecycleViewAdapter extends RecyclerView.Adapter<Histor
 
     @Override
     public int getItemCount() {
-        if(list.size() != 0) {
-            return list.size();
+        if(showAllItems) {
+            return  list.size();
+        } else {
+            return Math.min(list.size(), maxVisibleItems);
         }
-        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -64,6 +79,7 @@ public class History_TodayRecycleViewAdapter extends RecyclerView.Adapter<Histor
         private TextView item_history_today_recycle_view_title;
         private TextView item_history_today_recycle_view_des;
         private ImageView item_history_today_recycle_view_more;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             item_history_today_recycle_view_img = itemView.findViewById(R.id.item_history_today_recycle_view_img);

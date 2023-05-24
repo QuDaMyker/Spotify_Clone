@@ -28,7 +28,7 @@ public class ListTodayHitsAdapter extends RecyclerView.Adapter<ListTodayHitsAdap
     @NonNull
     @Override
     public ListTodayHitsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context.getApplicationContext()).inflate(R.layout.item_hit, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hit, parent, false);
         return new ViewHolder(view);
     }
 
