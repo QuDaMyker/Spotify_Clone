@@ -5,68 +5,77 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/neutral_black_color"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
     android:orientation="horizontal">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/item_history_today_recycle_view_img"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+    <LinearLayout
+        android:id="@+id/linearLayout9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:adjustViewBounds="true"
-        android:background="@drawable/image_radius"
-        android:scaleType="centerCrop"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/roundImageView"
-        app:srcCompat="@drawable/img_hit_1" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/item_history_today_recycle_view_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_history_today_recycle_view_img"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundImageView"
+            app:srcCompat="@drawable/img_hit_1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout10"
+        android:layout_width="250dp"
+        android:layout_height="42dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="2"
-        android:ellipsize="end"
-        android:fontFamily="@font/montserratsemibold"
-        android:maxLines="1"
-        android:text="Happiers"
-        android:textColor="@color/neutral_white_color"
-        android:textSize="12sp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/item_history_today_recycle_view_img"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.279" />
+        app:layout_constraintStart_toEndOf="@+id/linearLayout9"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/item_history_today_recycle_view_des"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="2"
-        android:ellipsize="end"
-        android:fontFamily="@font/montserratlight"
-        android:maxLines="1"
-        android:text="Playlist"
-        android:textColor="@color/neutral_white_color"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/item_history_today_recycle_view_img"
-        app:layout_constraintTop_toBottomOf="@+id/item_history_today_recycle_view_title" />
+        <TextView
+            android:id="@+id/item_history_today_recycle_view_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserratsemibold"
+            android:maxWidth="230dp"
+            android:maxLines="1"
+            android:text="Happiers"
+            android:textColor="@color/neutral_white_color"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/item_history_today_recycle_view_des"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxWidth="230dp"
+            android:maxLines="1"
+            android:text="Playlist"
+            android:textColor="@color/text_gray_color"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/item_history_today_recycle_view_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/black"
+        android:src="@drawable/baseline_more_vert_30"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_more_vert_30" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

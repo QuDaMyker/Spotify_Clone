@@ -21,21 +21,21 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/item_tab_layout_artist_img"
+            android:id="@+id/item_history_yesterday_recycle_view_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundImageView"
-            app:srcCompat="@drawable/img_singer_1" />
+            app:srcCompat="@drawable/img_hit_1" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout10"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="250dp"
+        android:layout_height="42dp"
         android:layout_marginStart="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,36 +43,36 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/item_tab_layout_artist_Artist"
+            android:id="@+id/item_history_today_yesterday_view_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserratsemibold"
             android:maxWidth="230dp"
             android:maxLines="1"
-            android:text="Adele"
+            android:text="Happiers"
             android:textColor="@color/neutral_white_color"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/item_tab_layout_artist_Des"
+            android:id="@+id/item_history_today_yesterday_view_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxWidth="230dp"
             android:maxLines="1"
-            android:text="43,877,516 monthly listeners"
+            android:text="Playlist"
             android:textColor="@color/text_gray_color"
             android:textSize="12sp" />
 
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/item_tab_layout_artist_BtnNext"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="28dp"
+        android:id="@+id/item_history_today_yesterday_view_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
         android:backgroundTint="@color/black"
-        android:src="@drawable/icons_next_100"
+        android:src="@drawable/baseline_more_vert_30"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

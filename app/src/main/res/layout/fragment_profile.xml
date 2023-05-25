@@ -14,7 +14,7 @@
         android:background="#6A6868"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="30dp"
+        android:paddingTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
