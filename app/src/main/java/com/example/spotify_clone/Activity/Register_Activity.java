@@ -19,6 +19,7 @@ public class Register_Activity extends AppCompatActivity {
         binding.regBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Signup_Activity.class));
                 finish();
             }
         });
