@@ -1,5 +1,9 @@
 package com.example.spotify_clone.Activity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -11,6 +15,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -23,6 +28,11 @@ import android.widget.CompoundButton;
 import com.example.spotify_clone.ClassUtils.CommonUtils;
 import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivityRegisterBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -32,13 +42,23 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.LocalDate;
 import java.util.Random;
 
 public class Register_Activity extends AppCompatActivity {
+    private ProgressDialog progressDialog;
     private ActivityRegisterBinding binding;
     private FirebaseAuth auth;
+    private FirebaseDatabase database;
+    private GoogleSignInOptions gOptions;
+    private GoogleSignInClient gClient;
+    private DatabaseReference reference;
+    //private GoogleSignInButton  googleBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +66,48 @@ public class Register_Activity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        auth = FirebaseAuth.getInstance();
+        //clearLoginState();
+        progressDialog = new ProgressDialog(Register_Activity.this);
+        progressDialog.setTitle("Creating account");
 
+
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        gClient = GoogleSignIn.getClient(Register_Activity.this, gOptions);
+
+        GoogleSignInAccount gAccount = GoogleSignIn.getLastSignedInAccount(Register_Activity.this);
+        if (gAccount != null) {
+            finish();
+            Intent intent = new Intent(Register_Activity.this, MainActivity.class);
+            startActivity(intent);
+        }
+
+        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Intent data = result.getData();
+                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                        try {
+                            task.getResult(ApiException.class);
+                            finish();
+                            Intent intent = new Intent(Register_Activity.this, MainActivity.class);
+                            startActivity(intent);
+                        } catch (ApiException e) {
+                            CommonUtils.showNotification(Register_Activity.this, "Đăng Kí Google", "Đăng kí bằng tài khoản Google, thử lại sau!");
+                        }
+                    }
+                });
 
         binding.regBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                //finish();
             }
         });
 
@@ -86,7 +140,20 @@ public class Register_Activity extends AppCompatActivity {
         binding.regRegGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(Register_Activity.this);
+                if (account != null) {
+                    // Người dùng đã đăng nhập trước đó, chuyển hướng đến màn hình chính
+                    Intent intent = new Intent(Register_Activity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent signInIntent = gClient.getSignInIntent();
+                    activityResultLauncher.launch(signInIntent);
+                }
 
+
+//                Intent signInIntent = gClient.getSignInIntent();
+//                activityResultLauncher.launch(signInIntent);
             }
         });
 
@@ -122,7 +189,7 @@ public class Register_Activity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    CommonUtils.showNotification(getApplicationContext(),"Đăng kí", "Đăng kí tài khoản thành công");
+                                    CommonUtils.showNotification(getApplicationContext(), "Đăng kí", "Đăng kí tài khoản thành công");
                                     //createNotif("Đăng kí", "Đăng kí tài khoản thành công");
                                 } else {
                                     Exception exception = task.getException();
@@ -131,14 +198,14 @@ public class Register_Activity extends AppCompatActivity {
                                         String errorCode = firebaseAuthException.getErrorCode();
                                         if (errorCode.equals("ERROR_EMAIL_ALREADY_IN_USE")) {
                                             // Email đã tồn tại, xử lý lỗi ở đây
-                                            CommonUtils.showNotification(getApplicationContext(),"Đăng kí", "Email đã tồn tại. Vui lòng sử dụng email khác.");
+                                            CommonUtils.showNotification(getApplicationContext(), "Đăng kí", "Email đã tồn tại. Vui lòng sử dụng email khác.");
                                         } else {
                                             // Xử lý các lỗi khác (nếu có)
-                                            CommonUtils.showNotification(getApplicationContext(),"Đăng kí", "Đăng kí tài khoản thất bại: " + errorCode);
+                                            CommonUtils.showNotification(getApplicationContext(), "Đăng kí", "Đăng kí tài khoản thất bại: " + errorCode);
                                         }
                                     } else {
                                         // Xử lý các lỗi khác (nếu có)
-                                        CommonUtils.showNotification(getApplicationContext(),"Đăng kí", "Đăng kí tài khoản thất bại");
+                                        CommonUtils.showNotification(getApplicationContext(), "Đăng kí", "Đăng kí tài khoản thất bại");
                                     }
                                 }
 
@@ -147,13 +214,15 @@ public class Register_Activity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                               // createNotif("Đăng kí", "");
+                                // createNotif("Đăng kí", "");
                             }
                         });
                     }
 
                 }
-
+                Intent intent = new Intent(Register_Activity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -169,6 +238,10 @@ public class Register_Activity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void clearLoginState() {
+        FirebaseAuth.getInstance().signOut();
     }
 
     private boolean checkValidData() {
@@ -216,46 +289,4 @@ public class Register_Activity extends AppCompatActivity {
         return flag;
     }
 
-    private void createNotif(String title, String des) {
-        String id = "my_channel_id_01";
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = manager.getNotificationChannel(id);
-            if (channel == null) {
-                channel = new NotificationChannel(id, "Channel Title", NotificationManager.IMPORTANCE_HIGH);
-                //config nofication channel
-                channel.setDescription("[Channel description]");
-                channel.enableVibration(true);
-                channel.setVibrationPattern(new long[]{100, 1000, 200, 340});
-                channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-                manager.createNotificationChannel(channel);
-            }
-        }
-        Intent notificationIntent = new Intent(this, NoficationActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, id)
-                .setSmallIcon(R.drawable.img_album_1)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.img_album_1))
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.img_album_1))
-                        .bigLargeIcon(null))
-                .setContentTitle(title)
-                .setContentText(des)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setVibrate(new long[]{100, 1000, 200, 340})
-                .setAutoCancel(false)//true touch on notificaiton menu dismissed, but swipe to dismiss
-                .setTicker("Nofiication");
-        builder.setContentIntent(contentIntent);
-        NotificationManagerCompat m = NotificationManagerCompat.from(this);
-        //id to generate new notification in list notifications menu
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // Yêu cầu quyền từ người dùng
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
-            return;
-        }
-
-        m.notify(new Random().nextInt(), builder.build());
-
-    }
 }
