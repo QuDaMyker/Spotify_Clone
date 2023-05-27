@@ -23,9 +23,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.example.spotify_clone.ClassUtils.CommonUtils;
+import com.example.spotify_clone.OOP.Account;
 import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivityRegisterBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -36,6 +39,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -43,6 +47,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -52,12 +57,10 @@ import java.util.Random;
 public class Register_Activity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ActivityRegisterBinding binding;
-    private FirebaseAuth auth;
-    private FirebaseDatabase database;
-    private GoogleSignInOptions gOptions;
-    private GoogleSignInClient gClient;
-    private DatabaseReference reference;
-    //private GoogleSignInButton  googleBtn;
+    FirebaseAuth auth;
+    FirebaseDatabase database;
+    GoogleSignInClient mGoogleSignInClient;
+    ActivityResultLauncher<Intent> signInLauncher;
 
 
     @Override
@@ -73,36 +76,32 @@ public class Register_Activity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-        gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        gClient = GoogleSignIn.getClient(Register_Activity.this, gOptions);
 
-        GoogleSignInAccount gAccount = GoogleSignIn.getLastSignedInAccount(Register_Activity.this);
-        if (gAccount != null) {
-            finish();
-            Intent intent = new Intent(Register_Activity.this, MainActivity.class);
-            startActivity(intent);
-        }
-
-        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+        signInLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        Intent data = result.getData();
-                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                        try {
-                            task.getResult(ApiException.class);
-                            finish();
-                            Intent intent = new Intent(Register_Activity.this, MainActivity.class);
-                            startActivity(intent);
-                        } catch (ApiException e) {
-                            CommonUtils.showNotification(Register_Activity.this, "Đăng Kí Google", "Đăng kí bằng tài khoản Google, thử lại sau!");
+                        if (result.getResultCode() == RESULT_OK) {
+                            Intent data = result.getData();
+                            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+
+                            try {
+                                GoogleSignInAccount account = task.getResult(ApiException.class);
+                                firebaseAuth(account.getIdToken());
+                            } catch (ApiException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 });
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         binding.regBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,11 +116,6 @@ public class Register_Activity extends AppCompatActivity {
 
             }
         });
-
-        binding.regEditFullName.getText();
-        binding.regEditEmail.getText();
-        binding.regPassword.getText();
-        binding.regConfirmPassword.getText();
 
         binding.regLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,20 +134,7 @@ public class Register_Activity extends AppCompatActivity {
         binding.regRegGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(Register_Activity.this);
-                if (account != null) {
-                    // Người dùng đã đăng nhập trước đó, chuyển hướng đến màn hình chính
-                    Intent intent = new Intent(Register_Activity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Intent signInIntent = gClient.getSignInIntent();
-                    activityResultLauncher.launch(signInIntent);
-                }
-
-
-//                Intent signInIntent = gClient.getSignInIntent();
-//                activityResultLauncher.launch(signInIntent);
+                signIn();
             }
         });
 
@@ -190,7 +171,33 @@ public class Register_Activity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     CommonUtils.showNotification(getApplicationContext(), "Đăng kí", "Đăng kí tài khoản thành công");
-                                    //createNotif("Đăng kí", "Đăng kí tài khoản thành công");
+
+                                    String dateCreatedAccount = null;
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        LocalDate currentDate = LocalDate.now();
+                                        dateCreatedAccount = currentDate.toString();
+                                    } else {
+                                        dateCreatedAccount = "2023-01-01";
+                                    }
+                                    String dateRegPremium = "2003-01-01";
+                                    boolean isPremium = false;
+
+                                    FirebaseUser user = auth.getCurrentUser();
+                                    Account account = new Account();
+                                    account.setID(user.getUid());
+                                    account.setFullName(binding.regEditFullName.getText().toString().trim());
+                                    account.setEmail(binding.regEditEmail.getText().toString().trim());
+                                    account.setPassword(binding.regPassword.getText().toString().trim());
+                                    account.setDateCreatedAccount(dateCreatedAccount);
+                                    account.setDateRegPremium(dateRegPremium);
+                                    account.setPremium(isPremium);
+                                    account.setImageProfile("null");
+
+                                    database.getReference().child("List Account").child(user.getUid()).setValue(account);
+                                    Intent intent = new Intent(Register_Activity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+
                                 } else {
                                     Exception exception = task.getException();
                                     if (exception instanceof FirebaseAuthException) {
@@ -214,15 +221,11 @@ public class Register_Activity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                // createNotif("Đăng kí", "");
+
                             }
                         });
                     }
-
                 }
-                Intent intent = new Intent(Register_Activity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
             }
         });
 
@@ -240,8 +243,34 @@ public class Register_Activity extends AppCompatActivity {
         });
     }
 
-    private void clearLoginState() {
-        FirebaseAuth.getInstance().signOut();
+    private void signIn() {
+        Intent intent = mGoogleSignInClient.getSignInIntent();
+        signInLauncher.launch(intent);
+    }
+
+    private void firebaseAuth(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isComplete()) {
+                            FirebaseUser user = auth.getCurrentUser();
+
+                            CommonUtils.showNotification(Register_Activity.this, "Thong bao", "Thanh cong");
+//                            Users users = new Users();
+//                            users.setUserID(user.getUid());
+//                            users.setName(user.getDisplayName());
+//                            users.setProfile(user.getPhotoUrl().toString());
+//
+//                            database.getReference().child("Users").child(user.getUid()).setValue(users);
+//                            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+//                            startActivity(intent);
+                        } else {
+                            Toast.makeText(Register_Activity.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private boolean checkValidData() {
@@ -284,8 +313,6 @@ public class Register_Activity extends AppCompatActivity {
                 }
             }
         }
-
-
         return flag;
     }
 

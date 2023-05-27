@@ -1,20 +1,35 @@
 package com.example.spotify_clone.OOP;
 
 public class Account {
+    private String ID;
     private String FullName;
     private String Email;
     private String Password;
     private String DateCreatedAccount;
     private String DateRegPremium;
     private boolean isPremium;
+    private String ImageProfile;
 
-    public Account(String fullName, String email, String password, String dateCreatedAccount, String dateRegPremium, boolean isPremium) {
+    public Account() {
+    }
+
+    public Account(String ID, String fullName, String email, String password, String dateCreatedAccount, String dateRegPremium, boolean isPremium, String imageProfile) {
+        this.ID = ID;
         FullName = fullName;
         Email = email;
         Password = password;
         DateCreatedAccount = dateCreatedAccount;
         DateRegPremium = dateRegPremium;
         this.isPremium = isPremium;
+        ImageProfile = imageProfile;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public String getFullName() {
@@ -63,5 +78,13 @@ public class Account {
 
     public void setPremium(boolean premium) {
         isPremium = premium;
+    }
+
+    public String getImageProfile() {
+        return ImageProfile;
+    }
+
+    public void setImageProfile(String imageProfile) {
+        ImageProfile = imageProfile;
     }
 }
