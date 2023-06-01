@@ -57,7 +57,7 @@ public class CommonUtils {
         // id to generate new notification in list notifications menu
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             // Yêu cầu quyền từ người dùng
-            ActivityCompat.requestPermissions((Activity) context.getApplicationContext(), new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+//            ActivityCompat.requestPermissions((Activity) context.getApplicationContext(), new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
             return;
         }
 

@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -22,19 +23,20 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.spotify_clone.ClassUtils.CommonUtils;
-import com.example.spotify_clone.OOP.Account;
 import com.example.spotify_clone.R;
 import com.example.spotify_clone.databinding.ActivityRegisterBinding;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,11 +59,13 @@ import java.util.Random;
 public class Register_Activity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ActivityRegisterBinding binding;
-    FirebaseAuth auth;
-    FirebaseDatabase database;
-    GoogleSignInClient mGoogleSignInClient;
-    ActivityResultLauncher<Intent> signInLauncher;
+    private FirebaseAuth auth;
+    private FirebaseDatabase database;
 
+    private GoogleSignInClient gClient;
+    private DatabaseReference reference;
+    //private GoogleSignInButton  googleBtn;
+    private int RESULT_CODE_SINGIN=999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,32 +80,12 @@ public class Register_Activity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
-        signInLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == RESULT_OK) {
-                            Intent data = result.getData();
-                            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-
-                            try {
-                                GoogleSignInAccount account = task.getResult(ApiException.class);
-                                firebaseAuth(account.getIdToken());
-                            } catch (ApiException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    }
-                });
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+        GoogleSignInOptions gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
+        gClient = GoogleSignIn.getClient(Register_Activity.this, gOptions);
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
 
         binding.regBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +100,11 @@ public class Register_Activity extends AppCompatActivity {
 
             }
         });
+
+        binding.regEditFullName.getText();
+        binding.regEditEmail.getText();
+        binding.regPassword.getText();
+        binding.regConfirmPassword.getText();
 
         binding.regLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +123,9 @@ public class Register_Activity extends AppCompatActivity {
         binding.regRegGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn();
+                    Intent signInIntent = gClient.getSignInIntent();
+                startActivityForResult(signInIntent,RESULT_CODE_SINGIN);
+
             }
         });
 
@@ -155,7 +146,7 @@ public class Register_Activity extends AppCompatActivity {
                     String password = binding.regPassword.getText().toString().trim();
 
                     String dateCreatedAccount = null;
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         LocalDate currentDate = LocalDate.now();
                         dateCreatedAccount = currentDate.toString();
                     } else {
@@ -171,33 +162,7 @@ public class Register_Activity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     CommonUtils.showNotification(getApplicationContext(), "Đăng kí", "Đăng kí tài khoản thành công");
-
-                                    String dateCreatedAccount = null;
-                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                        LocalDate currentDate = LocalDate.now();
-                                        dateCreatedAccount = currentDate.toString();
-                                    } else {
-                                        dateCreatedAccount = "2023-01-01";
-                                    }
-                                    String dateRegPremium = "2003-01-01";
-                                    boolean isPremium = false;
-
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    Account account = new Account();
-                                    account.setID(user.getUid());
-                                    account.setFullName(binding.regEditFullName.getText().toString().trim());
-                                    account.setEmail(binding.regEditEmail.getText().toString().trim());
-                                    account.setPassword(binding.regPassword.getText().toString().trim());
-                                    account.setDateCreatedAccount(dateCreatedAccount);
-                                    account.setDateRegPremium(dateRegPremium);
-                                    account.setPremium(isPremium);
-                                    account.setImageProfile("null");
-
-                                    database.getReference().child("List Account").child(user.getUid()).setValue(account);
-                                    Intent intent = new Intent(Register_Activity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-
+                                    //createNotif("Đăng kí", "Đăng kí tài khoản thành công");
                                 } else {
                                     Exception exception = task.getException();
                                     if (exception instanceof FirebaseAuthException) {
@@ -221,11 +186,15 @@ public class Register_Activity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-
+                                // createNotif("Đăng kí", "");
                             }
                         });
                     }
+
                 }
+                Intent intent = new Intent(Register_Activity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -242,35 +211,47 @@ public class Register_Activity extends AppCompatActivity {
             }
         });
     }
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        //getting the auth credential
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
 
-    private void signIn() {
-        Intent intent = mGoogleSignInClient.getSignInIntent();
-        signInLauncher.launch(intent);
-    }
-
-    private void firebaseAuth(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        //Now using firebase we are signing in the user here
         auth.signInWithCredential(credential)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isComplete()) {
-                            FirebaseUser user = auth.getCurrentUser();
-
-                            CommonUtils.showNotification(Register_Activity.this, "Thong bao", "Thanh cong");
-//                            Users users = new Users();
-//                            users.setUserID(user.getUid());
-//                            users.setName(user.getDisplayName());
-//                            users.setProfile(user.getPhotoUrl().toString());
-//
-//                            database.getReference().child("Users").child(user.getUid()).setValue(users);
-//                            Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-//                            startActivity(intent);
+                            Log.d("task1",task.toString());
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(Register_Activity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
-                            Toast.makeText(Register_Activity.this, "Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register_Activity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_CODE_SINGIN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    firebaseAuthWithGoogle(account);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                CommonUtils.showNotification(Register_Activity.this, "Đăng Kí Google", "Đăng kí bằng tài khoản Google, thử lại sau!");
+            }
+        }
+    }
+
+    private void clearLoginState() {
+        FirebaseAuth.getInstance().signOut();
     }
 
     private boolean checkValidData() {
@@ -313,7 +294,22 @@ public class Register_Activity extends AppCompatActivity {
                 }
             }
         }
+
+
         return flag;
     }
 
+    protected void onStart() {
+        super.onStart();
+
+        //if the user is already signed in
+        //we will close this activity
+        //and take the user to profile activity
+        if (auth.getCurrentUser() != null) {
+            finish();
+            Intent intent = new Intent(Register_Activity.this, MainActivity.class);
+            startActivity(intent);
+
+        }
+    }
 }
